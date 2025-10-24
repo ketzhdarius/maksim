@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Ride Booking Platform{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% if user.is_authenticated %}
+        {% if user.user_role == 'customer' %}
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2>My Rides</h2>
+                        <a href="{% url 'create_ride' %}" class="btn btn-primary">Book a Ride</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    {% include 'rides/ride_list_partial.html' with rides=user.rides_as_customer.all %}
+                </div>
+            </div>
+        {% elif user.user_role == 'rider' %}
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <h2>Available Rides</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    {% include 'rides/ride_list_partial.html' with rides=available_rides %}
+                </div>
+            </div>
+        {% else %}
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <h2>Staff Dashboard</h2>
+                    <div class="row mt-4">
+                        <div class="col-md-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Quick Actions</h5>
+                                    <div class="list-group">
+                                        <a href="{% url 'dashboard:user_list' %}" class="list-group-item list-group-item-action">Manage Users</a>
+                                        <a href="{% url 'dashboard:add_balance' %}" class="list-group-item list-group-item-action">Add Balance</a>
+                                        <a href="{% url 'dashboard:ride_statistics' %}" class="list-group-item list-group-item-action">View Statistics</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="row">
+            <div class="col-md-12 text-center py-5">
+                <h1>Welcome to Ride Booking Platform</h1>
+                <p class="lead">Book rides easily and travel safely with our trusted riders.</p>
+                <div class="mt-4">
+                    <a href="{% url 'login' %}" class="btn btn-primary me-2">Sign In</a>
+                    <a href="{% url 'signup' %}" class="btn btn-outline-primary">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

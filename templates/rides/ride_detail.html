@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block title %}Ride Details{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Ride Details</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>From:</strong> {{ ride.pickup_location }}
+                        </div>
+                        <div class="col-md-6">
+                            <strong>To:</strong> {{ ride.destination }}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <strong>Distance:</strong> {{ ride.total_distance }} km
+                        </div>
+                        <div class="col-md-4">
+                            <strong>Price:</strong> ${{ ride.price }}
+                        </div>
+                        <div class="col-md-4">
+                            <strong>Status:</strong>
+                            <span class="badge {% if ride.status == 'dropped' %}bg-success{% elif ride.status == 'assigned' %}bg-warning{% else %}bg-primary{% endif %}">
+                                {{ ride.status|title }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Customer:</strong> {{ ride.customer.get_full_name }}
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Rider:</strong>
+                            {% if ride.rider %}
+                                {{ ride.rider.get_full_name }}
+                            {% else %}
+                                Not assigned yet
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% if user.user_role == 'rider' and ride.status == 'created' %}
+                        <form method="post" action="{% url 'accept_ride' ride.pk %}" class="mt-3">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success">Accept Ride</button>
+                        </form>
+                    {% endif %}
+
+                    {% if user == ride.rider and ride.status == 'assigned' %}
+                        <form method="post" action="{% url 'complete_ride' ride.pk %}" class="mt-3">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary">Complete Ride</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h3 class="card-title">Ride Timeline</h3>
+                </div>
+                <div class="card-body">
+                    <div class="timeline">
+                        {% for event in events %}
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <h4 class="timeline-title">Step {{ event.step_count }}</h4>
+                                    <p>{{ event.description }}</p>
+                                    <small class="text-muted">{{ event.created_at|date:"F j, Y, g:i a" }}</small>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.timeline {
+    position: relative;
+    padding: 20px 0;
+}
+
+.timeline-item {
+    padding-left: 40px;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #007bff;
+    border: 2px solid #fff;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 15px;
+    height: 100%;
+    width: 2px;
+    background: #e9ecef;
+}
+
+.timeline-item:last-child::before {
+    display: none;
+}
+
+.timeline-content {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 4px;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}Book a Ride{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h2 class="mb-4">Book a Ride</h2>
+            <form method="post" id="ride-form">
+                {% csrf_token %}
+                <div class="card">
+                    <div class="card-body">
+                        {% for field in form %}
+                            <div class="mb-3">
+                                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                                {{ field }}
+                                {% if field.errors %}
+                                    <div class="alert alert-danger mt-1">
+                                        {{ field.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        <button type="submit" class="btn btn-primary">Create Ride</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('ride-form');
+    const pickupField = document.getElementById('id_pickup_location');
+    const destinationField = document.getElementById('id_destination');
+    const distanceField = document.getElementById('id_total_distance');
+
+    function calculateDistance() {
+        if (pickupField.value && destinationField.value) {
+            fetch('{% url "calculate_distance" %}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    pickup: pickupField.value,
+                    destination: destinationField.value
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                distanceField.value = data.distance.toFixed(2);
+            });
+        }
+    }
+
+    pickupField.addEventListener('change', calculateDistance);
+    destinationField.addEventListener('change', calculateDistance);
+});
+</script>
+{% endblock %}
+{% endblock %}

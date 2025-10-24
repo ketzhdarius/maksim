@@ -1,0 +1,7 @@
+Django>=4.2
+Pillow
+python-dotenv
+boto3
+django-storages
+gunicorn
+
