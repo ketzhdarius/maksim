@@ -67,7 +67,7 @@ MIDDLEWARE = [
 ]
 
 # Add WhiteNoise configuration
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 
 ROOT_URLCONF = 'ridebooking.urls'
