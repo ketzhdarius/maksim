@@ -1,0 +1,37 @@
+/* Central palette to ensure variables are loaded and easy to cache-bust */
+:root {
+    --bg: #F8FAFC;
+    --white: #FFFFFF;
+    --text-color: #0F172A;
+    --muted: #6B7280;
+
+    --safety-blue: #2563EB;
+    --safety-blue-rgb: 37, 99, 235;
+    --safety-blue-dark: #1D4ED8;
+    --safety-blue-light: #DBEAFE;
+
+    --accent-amber: #F59E0B;
+    --accent-amber-rgb: 245, 158, 11;
+
+    --brand-green: #16A34A;
+    --brand-green-light: #D1FAE5;
+    --alert-red: #DC2626;
+    --alert-red-light: #FEE2E2;
+
+    --border-light: #E2E8F0;
+    --border-medium: #CBD5E1;
+    --border-dark: #94A3B8;
+    --shadow-color: rgba(2,6,23,0.06);
+
+    /* Compatibility aliases */
+    --black: var(--text-color);
+    --text-primary: var(--text-color);
+    --text-secondary: #475569;
+    --text-muted: var(--muted);
+    --text-light: #94a3b8;
+
+    --background-main: var(--white);
+    --background-light: var(--bg);
+    --background-subtle: #F1F5F9;
+    --background-muted: #E2E8F0;
+}

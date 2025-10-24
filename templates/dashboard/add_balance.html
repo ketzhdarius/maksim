@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Balance - Dashboard{% endblock %}
+
+{% block content %}
+<style>
+    .balance-container {
+        max-width: 580px;
+        margin: 3rem auto;
+    }
+
+    .page-title {
+        color: var(--black);
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+    }
+
+    .balance-card {
+        background: var(--white);
+        border: 1px solid var(--medium-gray);
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .form-label {
+        color: var(--black);
+        font-weight: 500;
+        font-size: 0.95rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .form-select, .form-control {
+        border: 2px solid var(--medium-gray);
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+        width: 100%;
+    }
+
+    .form-select:focus, .form-control:focus {
+        border-color: var(--safety-blue);
+        box-shadow: 0 0 0 3px rgba(39, 110, 241, 0.1);
+        outline: none;
+    }
+
+    .form-select {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        background-size: 16px 12px;
+        padding-right: 2.5rem;
+    }
+
+    .user-option {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .balance-badge {
+        background-color: rgba(39, 110, 241, 0.1);
+        color: var(--safety-blue);
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-weight: 500;
+    }
+
+    .role-badge {
+        background-color: rgba(71, 178, 117, 0.1);
+        color: var(--brand-green);
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-weight: 500;
+        margin-left: 0.5rem;
+    }
+
+    .btn-submit {
+        background-color: var(--safety-blue);
+        color: var(--white);
+        border: none;
+        padding: 0.875rem 2rem;
+        border-radius: 8px;
+        font-weight: 500;
+        width: 100%;
+        margin-top: 1rem;
+        transition: all 0.2s ease;
+    }
+
+    .btn-submit:hover {
+        background-color: #1b5cd8;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(39, 110, 241, 0.2);
+    }
+
+    .amount-input {
+        font-family: 'Inter', monospace;
+        font-size: 1.25rem;
+    }
+
+    .amount-input::before {
+        content: '₱';
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--medium-gray);
+    }
+
+    .input-group {
+        position: relative;
+    }
+
+    .currency-symbol {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--medium-gray);
+        font-weight: 500;
+        z-index: 2;
+    }
+
+    .amount-input {
+        padding-left: 2rem !important;
+    }
+</style>
+
+<div class="balance-container">
+    <h1 class="page-title">Add Balance</h1>
+
+    <div class="balance-card">
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label for="user_id" class="form-label">Select User</label>
+                <select name="user_id" id="user_id" class="form-select">
+                    {% for u in users %}
+                        <option value="{{ u.id }}">
+                            {{ u.get_full_name }}
+                            <span class="role-badge">{{ u.user_role|title }}</span>
+                            <span class="balance-badge">₱{{ u.balance }}</span>
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="amount" class="form-label">Amount to Add</label>
+                <div class="input-group">
+                    <span class="currency-symbol">₱</span>
+                    <input type="number"
+                           step="0.01"
+                           min="0.01"
+                           name="amount"
+                           id="amount"
+                           class="form-control amount-input"
+                           placeholder="0.00"
+                           required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">
+                <i class="fas fa-plus-circle me-2"></i>Add Balance
+            </button>
+        </form>
+    </div>
+</div>
+
+{% block extra_js %}
+<script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script>
+{% endblock %}
+{% endblock %}

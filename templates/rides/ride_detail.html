@@ -3,130 +3,309 @@
 {% block title %}Ride Details{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Ride Details</h3>
+<style>
+    .detail-container {
+        max-width: 800px;
+        margin: 3rem auto;
+    }
+
+    .page-title {
+        color: var(--black);
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+    }
+
+    .detail-card {
+        background: var(--white);
+        border: 1px solid var(--medium-gray);
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .card-header {
+        background-color: var(--white);
+        border-bottom: 1px solid var(--medium-gray);
+        padding: 1.5rem 2rem;
+    }
+
+    .card-header h3 {
+        color: var(--black);
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .card-body {
+        padding: 2rem;
+    }
+
+    .detail-row {
+        display: flex;
+        margin-bottom: 1.5rem;
+        gap: 2rem;
+    }
+
+    .detail-item {
+        flex: 1;
+    }
+
+    .detail-label {
+        color: var(--medium-gray);
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .detail-value {
+        color: var(--black);
+        font-size: 1.125rem;
+        font-weight: 500;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+
+    .status-created {
+        background-color: rgba(39, 110, 241, 0.1);
+        color: var(--safety-blue);
+    }
+
+    .status-assigned {
+        background-color: rgba(255, 193, 7, 0.1);
+        color: #ffc107;
+    }
+
+    .status-dropped {
+        background-color: rgba(71, 178, 117, 0.1);
+        color: var(--brand-green);
+    }
+
+    .action-buttons {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--medium-gray);
+        display: flex;
+        gap: 1rem;
+    }
+
+    .btn-action {
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.2s ease;
+    }
+
+    .btn-accept {
+        background-color: var(--brand-green);
+        color: var(--white);
+        border: none;
+    }
+
+    .btn-accept:hover {
+        background-color: #3a9861;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(71, 178, 117, 0.2);
+    }
+
+    .btn-complete {
+        background-color: var(--safety-blue);
+        color: var(--white);
+        border: none;
+    }
+
+    .btn-complete:hover {
+        background-color: #1b5cd8;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(39, 110, 241, 0.2);
+    }
+
+    /* Timeline Styles */
+    .timeline {
+        position: relative;
+        padding: 2rem 0 0 2rem;
+    }
+
+    .timeline::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 2px;
+        background: var(--medium-gray);
+    }
+
+    .timeline-item {
+        position: relative;
+        padding-bottom: 2rem;
+        padding-left: 2rem;
+    }
+
+    .timeline-marker {
+        position: absolute;
+        left: -2.25rem;
+        width: 1rem;
+        height: 1rem;
+        border-radius: 50%;
+        background: var(--safety-blue);
+        border: 2px solid var(--white);
+        box-shadow: 0 0 0 2px var(--safety-blue);
+    }
+
+    .timeline-content {
+        background: rgba(39, 110, 241, 0.05);
+        padding: 1rem;
+        border-radius: 8px;
+        position: relative;
+    }
+
+    .timeline-title {
+        color: var(--safety-blue);
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .timeline-text {
+        color: var(--black);
+        font-size: 0.95rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .timeline-date {
+        color: var(--medium-gray);
+        font-size: 0.875rem;
+    }
+</style>
+
+<div class="detail-container">
+    <div class="detail-card">
+        <div class="card-header">
+            <h3>Ride Details</h3>
+        </div>
+        <div class="card-body">
+            <div class="detail-row">
+                <div class="detail-item">
+                    <div class="detail-label">
+                        <i class="fas fa-map-marker-alt"></i>From
+                    </div>
+                    <div class="detail-value">{{ ride.pickup_location }}</div>
                 </div>
-                <div class="card-body">
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <strong>From:</strong> {{ ride.pickup_location }}
-                        </div>
-                        <div class="col-md-6">
-                            <strong>To:</strong> {{ ride.destination }}
-                        </div>
+                <div class="detail-item">
+                    <div class="detail-label">
+                        <i class="fas fa-map-pin"></i>To
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-md-4">
-                            <strong>Distance:</strong> {{ ride.total_distance }} km
-                        </div>
-                        <div class="col-md-4">
-                            <strong>Price:</strong> ${{ ride.price }}
-                        </div>
-                        <div class="col-md-4">
-                            <strong>Status:</strong>
-                            <span class="badge {% if ride.status == 'dropped' %}bg-success{% elif ride.status == 'assigned' %}bg-warning{% else %}bg-primary{% endif %}">
-                                {{ ride.status|title }}
-                            </span>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <strong>Customer:</strong> {{ ride.customer.get_full_name }}
-                        </div>
-                        <div class="col-md-6">
-                            <strong>Rider:</strong>
-                            {% if ride.rider %}
-                                {{ ride.rider.get_full_name }}
-                            {% else %}
-                                Not assigned yet
-                            {% endif %}
-                        </div>
-                    </div>
-
-                    {% if user.user_role == 'rider' and ride.status == 'created' %}
-                        <form method="post" action="{% url 'accept_ride' ride.pk %}" class="mt-3">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-success">Accept Ride</button>
-                        </form>
-                    {% endif %}
-
-                    {% if user == ride.rider and ride.status == 'assigned' %}
-                        <form method="post" action="{% url 'complete_ride' ride.pk %}" class="mt-3">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-primary">Complete Ride</button>
-                        </form>
-                    {% endif %}
+                    <div class="detail-value">{{ ride.destination }}</div>
                 </div>
             </div>
 
-            <div class="card mt-4">
-                <div class="card-header">
-                    <h3 class="card-title">Ride Timeline</h3>
+            <div class="detail-row">
+                <div class="detail-item">
+                    <div class="detail-label">
+                        <i class="fas fa-route"></i>Distance
+                    </div>
+                    <div class="detail-value">{{ ride.total_distance }} km</div>
                 </div>
-                <div class="card-body">
-                    <div class="timeline">
-                        {% for event in events %}
-                            <div class="timeline-item">
-                                <div class="timeline-marker"></div>
-                                <div class="timeline-content">
-                                    <h4 class="timeline-title">Step {{ event.step_count }}</h4>
-                                    <p>{{ event.description }}</p>
-                                    <small class="text-muted">{{ event.created_at|date:"F j, Y, g:i a" }}</small>
-                                </div>
-                            </div>
-                        {% endfor %}
+                <div class="detail-item">
+                    <div class="detail-label">
+                        <i class="fas fa-tag"></i>Price
+                    </div>
+                    <div class="detail-value">₱{{ ride.price }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">
+                        <i class="fas fa-info-circle"></i>Status
+                    </div>
+                    <div class="detail-value">
+                        <span class="status-badge status-{{ ride.status }}">
+                            {{ ride.status|title }}
+                        </span>
                     </div>
                 </div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-item">
+                    <div class="detail-label">
+                        <i class="fas fa-user"></i>Customer
+                    </div>
+                    <div class="detail-value">{{ ride.customer.get_full_name }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">
+                        <i class="fas fa-motorcycle"></i>Rider
+                    </div>
+                    <div class="detail-value">
+                        {% if ride.rider %}
+                            {{ ride.rider.get_full_name }}
+                        {% else %}
+                            <span class="text-muted">Not assigned yet</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            {% if user.user_role == 'rider' and ride.status == 'created' %}
+                <div class="action-buttons">
+                    <form method="post" action="{% url 'accept_ride' ride.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-action btn-accept">
+                            <i class="fas fa-check"></i>Accept Ride
+                        </button>
+                    </form>
+                </div>
+            {% endif %}
+
+            {% if user == ride.rider and ride.status == 'assigned' %}
+                <div class="action-buttons">
+                    <form method="post" action="{% url 'complete_ride' ride.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-action btn-complete">
+                            <i class="fas fa-flag-checkered"></i>Complete Ride
+                        </button>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="detail-card">
+        <div class="card-header">
+            <h3>Ride Timeline</h3>
+        </div>
+        <div class="card-body">
+            <div class="timeline">
+                {% for event in events %}
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h4 class="timeline-title">Step {{ event.step_count }}</h4>
+                            <p class="timeline-text">{{ event.description }}</p>
+                            <span class="timeline-date">{{ event.created_at|date:"F j, Y, g:i a" }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </div>
 </div>
 
-<style>
-.timeline {
-    position: relative;
-    padding: 20px 0;
-}
-
-.timeline-item {
-    padding-left: 40px;
-    position: relative;
-    margin-bottom: 20px;
-}
-
-.timeline-marker {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background: #007bff;
-    border: 2px solid #fff;
-}
-
-.timeline-item::before {
-    content: '';
-    position: absolute;
-    left: 7px;
-    top: 15px;
-    height: 100%;
-    width: 2px;
-    background: #e9ecef;
-}
-
-.timeline-item:last-child::before {
-    display: none;
-}
-
-.timeline-content {
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 4px;
-}
-</style>
+{% block extra_js %}
+<script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script>
+{% endblock %}
 {% endblock %}

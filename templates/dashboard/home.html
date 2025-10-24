@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Maksim{% endblock %}
+
+{% block content %}
+<style>
+    .dashboard-title {
+        color: var(--black);
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+    }
+
+    .stat-card {
+        background: var(--white);
+        border: 1px solid var(--medium-gray);
+        border-radius: 12px;
+        padding: 1.5rem;
+        height: 100%;
+        transition: all 0.2s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .stat-title {
+        color: var(--medium-gray);
+        font-size: 1rem;
+        font-weight: 500;
+        margin-bottom: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .stat-value {
+        color: var(--black);
+        font-size: 2.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        line-height: 1;
+    }
+
+    .stat-link {
+        color: var(--safety-blue);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.875rem;
+        display: inline-flex;
+        align-items: center;
+        transition: all 0.2s ease;
+    }
+
+    .stat-link:hover {
+        color: #1b5cd8;
+        transform: translateX(2px);
+    }
+
+    .stat-link i {
+        margin-left: 0.5rem;
+        font-size: 0.75rem;
+    }
+</style>
+
+<div class="container mt-4">
+    <h1 class="dashboard-title">Staff Dashboard</h1>
+    <div class="row g-4">
+        <div class="col-md-3">
+            <div class="stat-card text-center">
+                <h5 class="stat-title">Total Users</h5>
+                <div class="stat-value">{{ total_users }}</div>
+                <a href="{% url 'dashboard:user_list' %}" class="stat-link">
+                    View users <i class="fas fa-chevron-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card text-center">
+                <h5 class="stat-title">Total Rides</h5>
+                <div class="stat-value">{{ total_rides }}</div>
+                <a href="{% url 'ride_list' %}" class="stat-link">
+                    View rides <i class="fas fa-chevron-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card text-center">
+                <h5 class="stat-title">Completed Rides</h5>
+                <div class="stat-value">{{ completed_rides }}</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card text-center">
+                <h5 class="stat-title">Active Rides</h5>
+                <div class="stat-value">{{ active_rides }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script>
+{% endblock %}
+{% endblock %}

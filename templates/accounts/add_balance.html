@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Balance - Accounts{% endblock %}
+
+{% block content %}
+<div class="container mt-4 add-balance-container">
+  <h2>Add Balance (Staff)</h2>
+
+  <div class="card mt-3">
+    <div class="card-body">
+      <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="user_id" class="form-label">Select user</label>
+          <select name="user_id" id="user_id" class="form-select">
+            {% for u in users %}
+              <option value="{{ u.id }}">{{ u.get_full_name }} ({{ u.user_role }}) - ₱{{ u.balance }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="amount" class="form-label">Amount</label>
+          <input type="number" step="0.01" min="0.01" name="amount" id="amount" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Balance</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

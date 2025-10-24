@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+    .login-container {
+        max-width: 480px;
+        margin: 3rem auto;
+    }
+
+    .login-card {
+        background: var(--white);
+        border: 1px solid var(--medium-gray);
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .login-title {
+        color: var(--black);
+        font-size: 1.75rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    .form-label {
+        color: var(--black);
+        font-weight: 500;
+        font-size: 0.95rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-control {
+        border: 2px solid var(--medium-gray);
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+    }
+
+    .form-control:focus {
+        border-color: var(--safety-blue);
+        box-shadow: 0 0 0 3px rgba(39, 110, 241, 0.1);
+    }
+
+    .btn-primary {
+        background-color: var(--safety-blue);
+        border: none;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+        width: 100%;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+    }
+
+    .btn-primary:hover {
+        background-color: #1b5cd8;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(39, 110, 241, 0.2);
+    }
+
+    .btn-link {
+        color: var(--safety-blue);
+        text-decoration: none;
+        font-weight: 500;
+        display: block;
+        text-align: center;
+    }
+
+    .btn-link:hover {
+        color: #1b5cd8;
+        text-decoration: underline;
+    }
+
+    .text-danger {
+        color: var(--alert-red) !important;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+
+    .alert-danger {
+        background-color: rgba(242, 81, 56, 0.1);
+        border-color: var(--alert-red);
+        color: var(--alert-red);
+        border-radius: 8px;
+        font-weight: 500;
+    }
+</style>
+
+<div class="login-container">
+    <div class="login-card">
+        <h2 class="login-title">Sign in</h2>
+        <form method="post" action="{% url 'accounts:login' %}">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger mb-4">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            <div class="mb-3">
+                <label for="{{ form.username.id_for_label }}" class="form-label">Username</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <div class="text-danger">{{ form.username.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="mb-4">
+                <label for="{{ form.password.id_for_label }}" class="form-label">Password</label>
+                {{ form.password }}
+                {% if form.password.errors %}
+                    <div class="text-danger">{{ form.password.errors }}</div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary">Sign in</button>
+            <a href="{% url 'accounts:signup' %}" class="btn btn-link">Don't have an account? Sign up</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

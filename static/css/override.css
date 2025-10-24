@@ -1,0 +1,117 @@
+/* Override sheet to enforce the new accessible palette across the site.
+   This is intentionally loaded last and uses !important to override any remaining hard-coded rules.
+   Remove or refine after you finish full refactor of source styles. */
+:root { }
+
+/* Global text & background */
+html, body {
+    background-color: var(--bg) !important;
+    color: var(--text-color) !important;
+}
+
+/* Links */
+a, a * {
+    color: var(--safety-blue) !important;
+}
+a:hover, a:focus {
+    color: var(--safety-blue-dark) !important;
+}
+
+/* Navbar */
+.navbar, .navbar * {
+    background-color: var(--white) !important;
+    color: var(--text-color) !important;
+}
+.navbar .nav-link, .navbar .navbar-brand {
+    color: var(--text-color) !important;
+}
+.navbar .nav-link:hover {
+    color: var(--safety-blue) !important;
+}
+
+/* Buttons */
+.btn, button, input[type=button], input[type=submit], .btn-primary {
+    color: var(--white) !important;
+    background-color: var(--safety-blue) !important;
+    border-color: var(--safety-blue) !important;
+}
+
+.btn-outline-primary {
+    color: var(--safety-blue) !important;
+    border-color: var(--safety-blue) !important;
+    background-color: transparent !important;
+}
+
+.btn-outline-primary:hover {
+    background-color: rgba(var(--safety-blue-rgb), 0.08) !important;
+    color: var(--safety-blue) !important;
+}
+
+/* Cards and surfaces */
+.card, .dropdown-menu, .quick-actions, .quick-actions-dropdown {
+    background-color: var(--white) !important;
+    border-color: var(--border-light) !important;
+    color: var(--text-color) !important;
+}
+
+/* Forms */
+.form-control, .form-select, input, textarea, select {
+    background-color: var(--white) !important;
+    color: var(--text-color) !important;
+    border-color: var(--border-medium) !important;
+}
+
+.form-control:focus, .form-select:focus {
+    box-shadow: 0 0 0 3px rgba(var(--safety-blue-rgb), 0.10) !important;
+    border-color: var(--safety-blue) !important;
+}
+
+/* Headings and text */
+h1,h2,h3,h4,h5,h6, .card-title, .display-4 {
+    color: var(--text-color) !important;
+}
+
+.lead, p, .card-text, .text-muted {
+    color: var(--muted) !important;
+}
+
+/* Utilities */
+.text-primary, .text-brand {
+    color: var(--safety-blue) !important;
+}
+.text-success {
+    color: var(--brand-green) !important;
+}
+.text-danger {
+    color: var(--alert-red) !important;
+}
+
+/* Ensure forced white text utility doesn't invert to dark */
+.text-white {
+    color: var(--white) !important;
+}
+
+/* List group and dropdown items */
+.list-group-item, .dropdown-item, .quick-action-item {
+    color: var(--text-color) !important;
+}
+.list-group-item:hover, .dropdown-item:hover, .quick-action-item:hover {
+    background-color: rgba(var(--safety-blue-rgb), 0.06) !important;
+    color: var(--safety-blue) !important;
+}
+
+/* Balance display and small indicators */
+.balance-display, .badge, .badge * {
+    background: rgba(var(--safety-blue-rgb), 0.08) !important;
+    color: var(--safety-blue) !important;
+    font-weight: 600 !important;
+}
+
+/* Final safety: override any remaining background colors that are pure white/dark text combos */
+*[style], [style*="#ffffff" i], [style*="#1a1a1a" i] {
+    background-color: var(--white) !important;
+    color: var(--text-color) !important;
+}
+
+/* End of override sheet */
+

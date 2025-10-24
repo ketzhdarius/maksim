@@ -1,0 +1,184 @@
+{% comment %}Partial: expects a context variable `rides` (iterable of Ride instances).{% endcomment %}
+
+<style>
+    .ride-list {
+        gap: 1rem;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .ride-card {
+        background: var(--white);
+        border: 1px solid var(--medium-gray);
+        border-radius: 12px;
+        padding: 1.5rem;
+        transition: all 0.2s ease;
+    }
+
+    .ride-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .ride-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+    }
+
+    .ride-route {
+        color: var(--black);
+        font-size: 1.25rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .route-arrow {
+        color: var(--safety-blue);
+        font-size: 1rem;
+    }
+
+    .ride-time {
+        color: var(--medium-gray);
+        font-size: 0.875rem;
+    }
+
+    .ride-details {
+        display: flex;
+        gap: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--medium-gray);
+        font-size: 0.875rem;
+    }
+
+    .detail-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .detail-value {
+        color: var(--black);
+        font-weight: 500;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+
+    .status-created {
+        background-color: rgba(173, 173, 173, 0.1);
+        color: var(--medium-gray);
+    }
+
+    .status-assigned {
+        background-color: rgba(39, 110, 241, 0.1);
+        color: var(--safety-blue);
+    }
+
+    .status-dropped {
+        background-color: rgba(71, 178, 117, 0.1);
+        color: var(--brand-green);
+    }
+
+    .ride-actions {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(173, 173, 173, 0.2);
+    }
+
+    .btn-view {
+        background-color: transparent;
+        color: var(--safety-blue);
+        border: 1px solid var(--safety-blue);
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 0.875rem;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+    .btn-view:hover {
+        background-color: var(--safety-blue);
+        color: var(--white);
+    }
+
+    .rider-info {
+        color: var(--medium-gray);
+        font-size: 0.875rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .no-rides {
+        background-color: rgba(39, 110, 241, 0.1);
+        color: var(--safety-blue);
+        padding: 1rem;
+        border-radius: 8px;
+        font-weight: 500;
+        text-align: center;
+    }
+</style>
+
+{% if rides %}
+    <div class="ride-list">
+        {% for ride in rides %}
+            <div class="ride-card">
+                <div class="ride-header">
+                    <h5 class="ride-route">
+                        {{ ride.pickup_location }}
+                        <i class="fas fa-arrow-right route-arrow"></i>
+                        {{ ride.destination }}
+                    </h5>
+                    <span class="ride-time">{{ ride.created_at|date:"M d, Y H:i" }}</span>
+                </div>
+                <div class="ride-details">
+                    <div class="detail-item">
+                        <i class="fas fa-route"></i>
+                        <span class="detail-value">{{ ride.total_distance }} km</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-tag"></i>
+                        <span class="detail-value">₱{{ ride.price }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="status-badge status-{{ ride.status }}">
+                            {{ ride.get_status_display }}
+                        </span>
+                    </div>
+                </div>
+                <div class="ride-actions">
+                    <a href="{% url 'ride_detail' ride.id %}" class="btn-view">
+                        <i class="fas fa-eye"></i> View Details
+                    </a>
+                    {% if ride.rider %}
+                        <div class="rider-info">
+                            <i class="fas fa-user"></i>
+                            <span>{{ ride.rider.get_full_name }}</span>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="no-rides">
+        <i class="fas fa-info-circle me-2"></i>No rides found.
+    </div>
+{% endif %}
+
+{% block extra_js %}
+<script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script>
+{% endblock %}

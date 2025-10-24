@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile - Ride Booking{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1>Profile</h1>
+
+  <div class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">{{ user.get_full_name }}</h5>
+      <p class="card-text">
+        Username: {{ user.username }}<br>
+        Email: {{ user.email }}
+      </p>
+      <p class="card-text">Balance: ₱{{ user.balance|default:0 }}</p>
+    </div>
+  </div>
+
+  {% if user.user_role == 'rider' %}
+    <div class="card mb-3">
+      <div class="card-header">Rider Summary</div>
+      <div class="card-body">
+        <p>Total distance (all time): <strong>{{ total_distance|default:0 }} km</strong></p>
+
+        <form method="get" class="row g-2 align-items-end">
+          <div class="col-auto">
+            <label for="date" class="form-label">Filter date</label>
+            <input type="date" id="date" name="date" class="form-control" value="{{ request.GET.date }}">
+          </div>
+          <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Filter</button>
+          </div>
+        </form>
+
+        <hr>
+        <h6>Add test distance (for demo)</h6>
+        <p class="text-muted">This input is editable so you can add a manual distance for testing purposes.</p>
+        <form method="post" action="">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="id_distance" class="form-label">Distance (km)</label>
+            <input type="number" step="0.01" min="0" name="distance" id="id_distance" class="form-control" placeholder="e.g. 12.50" required>
+          </div>
+          <button type="submit" class="btn btn-success">Add Distance (demo only)</button>
+        </form>
+
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Rides</div>
+      <div class="card-body">
+        {% include 'rides/ride_list_partial.html' with rides=today_rides %}
+      </div>
+    </div>
+
+  {% elif user.user_role == 'customer' %}
+    <div class="card">
+      <div class="card-header">My Rides</div>
+      <div class="card-body">
+        {% include 'rides/ride_list_partial.html' with rides=rides %}
+      </div>
+    </div>
+  {% else %}
+    <div class="alert alert-info">Staff profile — use the dashboard to manage the system.</div>
+  {% endif %}
+</div>
+{% endblock %}
+

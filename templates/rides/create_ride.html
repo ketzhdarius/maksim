@@ -3,63 +3,255 @@
 {% block title %}Book a Ride{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 offset-md-2">
-            <h2 class="mb-4">Book a Ride</h2>
-            <form method="post" id="ride-form">
-                {% csrf_token %}
-                <div class="card">
-                    <div class="card-body">
-                        {% for field in form %}
-                            <div class="mb-3">
-                                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-                                {{ field }}
-                                {% if field.errors %}
-                                    <div class="alert alert-danger mt-1">
-                                        {{ field.errors }}
-                                    </div>
-                                {% endif %}
-                            </div>
-                        {% endfor %}
-                        <button type="submit" class="btn btn-primary">Create Ride</button>
+<style>
+    .booking-container {
+        max-width: 680px;
+        margin: 3rem auto;
+    }
+
+    .page-title {
+        color: var(--black);
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    .booking-card {
+        background: var(--white);
+        border: 1px solid var(--medium-gray);
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .form-label {
+        color: var(--black);
+        font-weight: 500;
+        font-size: 0.95rem;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .form-label i {
+        color: var(--safety-blue);
+        margin-right: 0.5rem;
+        font-size: 1rem;
+    }
+
+    .form-control {
+        border: 2px solid var(--medium-gray);
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+    }
+
+    .form-control:focus {
+        border-color: var(--safety-blue);
+        box-shadow: 0 0 0 3px rgba(39, 110, 241, 0.1);
+        outline: none;
+    }
+
+    .form-text {
+        color: var(--medium-gray);
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
+    }
+
+    .text-danger {
+        color: var(--alert-red) !important;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .distance-display {
+        background-color: rgba(39, 110, 241, 0.1);
+        color: var(--safety-blue);
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        font-family: 'Inter', monospace;
+        font-size: 1.125rem;
+        font-weight: 500;
+    }
+
+    .price-input {
+        position: relative;
+    }
+
+    .price-input::before {
+        content: '₱';
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--medium-gray);
+        z-index: 1;
+    }
+
+    .price-input input {
+        padding-left: 2rem;
+    }
+
+    .btn-create {
+        background-color: var(--safety-blue);
+        color: var(--white);
+        border: none;
+        padding: 0.875rem 2rem;
+        border-radius: 8px;
+        font-weight: 500;
+        width: 100%;
+        margin-top: 1rem;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .btn-create:hover {
+        background-color: #1b5cd8;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(39, 110, 241, 0.2);
+    }
+
+    .form-section {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid var(--medium-gray);
+    }
+
+    .form-section:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+</style>
+
+<div class="booking-container">
+    <h1 class="page-title">Book a Ride</h1>
+
+    <div class="booking-card">
+        <form method="post" id="ride-form">
+            {% csrf_token %}
+
+            <div class="form-section">
+                <div class="mb-3">
+                    <label for="id_pickup_location" class="form-label">
+                        <i class="fas fa-map-marker-alt"></i>Pickup Location
+                    </label>
+                    {{ form.pickup_location }}
+                    {% if form.pickup_location.errors %}
+                        <div class="text-danger">
+                            <i class="fas fa-exclamation-circle"></i>
+                            {{ form.pickup_location.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_destination" class="form-label">
+                        <i class="fas fa-map-pin"></i>Destination
+                    </label>
+                    {{ form.destination }}
+                    {% if form.destination.errors %}
+                        <div class="text-danger">
+                            <i class="fas fa-exclamation-circle"></i>
+                            {{ form.destination.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="mb-3">
+                    <label for="id_total_distance" class="form-label">
+                        <i class="fas fa-route"></i>Distance
+                    </label>
+                    <div class="distance-display">
+                        {{ form.total_distance }} km
+                    </div>
+                    {% if form.total_distance.errors %}
+                        <div class="text-danger">
+                            <i class="fas fa-exclamation-circle"></i>
+                            {{ form.total_distance.errors }}
+                        </div>
+                    {% endif %}
+                    <div class="form-text">
+                        <i class="fas fa-info-circle me-1"></i>
+                        Distance is auto-generated based on pickup and destination locations
                     </div>
                 </div>
-            </form>
-        </div>
+            </div>
+
+            <div class="form-section">
+                <div class="mb-3">
+                    <label for="id_price" class="form-label">
+                        <i class="fas fa-tag"></i>Price
+                    </label>
+                    <div class="price-input">
+                        {{ form.price }}
+                    </div>
+                    {% if form.price.errors %}
+                        <div class="text-danger">
+                            <i class="fas fa-exclamation-circle"></i>
+                            {{ form.price.errors }}
+                        </div>
+                    {% endif %}
+                    <div class="form-text">
+                        <i class="fas fa-info-circle me-1"></i>
+                        Enter the amount you are willing to pay for this ride
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-create">
+                <i class="fas fa-car"></i>Create Ride
+            </button>
+        </form>
     </div>
 </div>
 
 {% block extra_js %}
+<script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('ride-form');
     const pickupField = document.getElementById('id_pickup_location');
     const destinationField = document.getElementById('id_destination');
     const distanceField = document.getElementById('id_total_distance');
 
-    function calculateDistance() {
-        if (pickupField.value && destinationField.value) {
-            fetch('{% url "calculate_distance" %}', {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    pickup: pickupField.value,
-                    destination: destinationField.value
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                distanceField.value = data.distance.toFixed(2);
-            });
-        }
+    function getCSRF() {
+        const el = document.querySelector('[name=csrfmiddlewaretoken]');
+        return el ? el.value : '';
     }
 
-    pickupField.addEventListener('change', calculateDistance);
-    destinationField.addEventListener('change', calculateDistance);
+    function fetchDistance() {
+        if (!pickupField.value || !destinationField.value) return;
+        fetch('{% url "calculate_distance" %}', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCSRF(),
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ pickup: pickupField.value, destination: destinationField.value })
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data && typeof data.distance !== 'undefined') {
+                distanceField.value = parseFloat(data.distance).toFixed(2);
+            }
+        })
+        .catch(err => console.error('Distance fetch error', err));
+    }
+
+    pickupField.addEventListener('change', fetchDistance);
+    destinationField.addEventListener('change', fetchDistance);
+    pickupField.addEventListener('blur', fetchDistance);
+    destinationField.addEventListener('blur', fetchDistance);
 });
 </script>
 {% endblock %}

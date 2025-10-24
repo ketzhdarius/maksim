@@ -1,0 +1,284 @@
+/* Ride Card Styles */
+.ride-card {
+    background-color: var(--white);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(2,6,23,0.06);
+    transition: all 0.2s ease;
+}
+
+.ride-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(2,6,23,0.08);
+}
+
+.ride-title {
+    color: var(--text-color);
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.ride-status {
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+.ride-status.created {
+    background-color: var(--safety-blue-light);
+    color: var(--safety-blue-dark);
+}
+
+.ride-status.accepted {
+    background-color: var(--brand-green-light);
+    color: var(--brand-green);
+}
+
+.ride-details {
+    color: var(--text-secondary);
+}
+
+.ride-details i {
+    color: var(--safety-blue);
+    width: 20px;
+    text-align: center;
+    margin-right: 0.5rem;
+}
+
+.ride-price {
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.btn-book {
+    display: inline-block;
+    padding: 0.625rem 1.25rem;
+    background-color: var(--safety-blue);
+    color: var(--white) !important;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-book:hover {
+    background-color: var(--safety-blue-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(var(--safety-blue-rgb), 0.2);
+    text-decoration: none;
+}
+
+/* Ride Form Styles */
+.ride-form input[type="text"],
+.ride-form input[type="number"],
+.ride-form select,
+input[type="text"],
+input[type="number"],
+select,
+.form-control {
+    background-color: var(--white) !important;
+    border: 2px solid var(--border-medium) !important;
+    color: var(--text-color) !important;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    width: 100%;
+    font-size: 1rem;
+}
+
+.ride-form input[type="text"]:focus,
+.ride-form input[type="number"]:focus,
+.ride-form select:focus,
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus,
+.form-control:focus {
+    border-color: var(--safety-blue) !important;
+    box-shadow: 0 0 0 3px rgba(var(--safety-blue-rgb), 0.10) !important;
+    outline: none;
+}
+
+.ride-form input::placeholder,
+input::placeholder,
+.form-control::placeholder {
+    color: var(--text-light) !important;
+}
+
+/* Force text visibility */
+.text-white, .text-white * {
+    color: var(--text-color) !important;
+}
+
+/* Force input text visibility */
+input, select, textarea {
+    color: var(--text-color) !important;
+    background-color: var(--white) !important;
+}
+
+/* Navbar button visibility */
+.navbar .btn-primary,
+.navbar .btn-secondary,
+.quick-action-btn {
+    background-color: var(--safety-blue) !important;
+    color: var(--white) !important;
+    border: none !important;
+    font-weight: 600;
+}
+
+/* Quick actions dropdown */
+.quick-actions-dropdown {
+    background: var(--white) !important;
+    border: 1px solid var(--border-light) !important;
+    color: var(--text-color) !important;
+}
+
+.quick-actions-dropdown .dropdown-item {
+    color: var(--text-color) !important;
+}
+
+/* Force form text visibility */
+.form-control,
+.form-control:focus,
+.form-control:active {
+    color: var(--text-color) !important;
+    background-color: var(--white) !important;
+}
+
+/* Make headings visible */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    color: var(--text-color) !important;
+}
+
+/* Force dark text in specific components */
+.ride-details *,
+.location-suggestions *,
+.dropdown-menu * {
+    color: var(--text-color) !important;
+}
+
+/* Override any dark text or background */
+body {
+    color: var(--text-color);
+}
+
+.text-white {
+    color: var(--text-color) !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-color);
+}
+
+/* Quick action button next to Maksim */
+.navbar .btn {
+    background-color: var(--safety-blue);
+    color: var(--white) !important;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    margin-left: 0.5rem;
+}
+
+.navbar .btn:hover {
+    background-color: var(--safety-blue-dark);
+}
+
+/* Make sure dropdowns are visible */
+.dropdown-menu {
+    background-color: var(--white) !important;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 4px 12px rgba(2,6,23,0.08);
+}
+
+.dropdown-item {
+    color: var(--text-color) !important;
+}
+
+.dropdown-item:hover {
+    background-color: var(--safety-blue-light) !important;
+    color: var(--safety-blue-dark) !important;
+}
+
+/* Quick Actions */
+.quick-actions {
+    position: absolute;
+    background-color: var(--white);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(2,6,23,0.08);
+    z-index: 1000;
+    width: 100%;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.quick-action-item {
+    padding: 0.75rem 1rem;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: block;
+    text-decoration: none;
+}
+
+.quick-action-item:hover {
+    background-color: var(--safety-blue-light);
+    color: var(--safety-blue-dark);
+    text-decoration: none;
+}
+
+/* Location Input Container */
+.location-input-container {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.location-input-container .form-control {
+    padding-right: 2.5rem;
+    background-color: var(--white) !important;
+    color: var(--text-color) !important;
+    border: 2px solid var(--border-medium);
+}
+
+.location-input-container .form-control:focus {
+    border-color: var(--safety-blue);
+    box-shadow: 0 0 0 3px rgba(var(--safety-blue-rgb), 0.1);
+}
+
+.location-input-container .form-control::placeholder {
+    color: var(--text-light);
+}
+
+.location-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--white);
+    border: 1px solid var(--border-light);
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 4px 12px rgba(2,6,23,0.08);
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.location-suggestion-item {
+    padding: 0.75rem 1rem;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: block;
+    text-decoration: none;
+}
+
+.location-suggestion-item:hover {
+    background-color: var(--safety-blue-light);
+    color: var(--safety-blue-dark);
+    text-decoration: none;
+}

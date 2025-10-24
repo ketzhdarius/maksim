@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block title %}Ride Statistics - Dashboard{% endblock %}
+
+{% block content %}
+<style>
+    .stats-container {
+        margin: 2rem 0;
+    }
+
+    .page-title {
+        color: var(--black);
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+    }
+
+    .total-earnings-card {
+        background: var(--white);
+        border: 1px solid var(--medium-gray);
+        border-radius: 12px;
+        padding: 2rem;
+        margin-bottom: 3rem;
+        text-align: center;
+    }
+
+    .earnings-label {
+        color: var(--medium-gray);
+        font-size: 1rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.75rem;
+    }
+
+    .earnings-value {
+        color: var(--black);
+        font-size: 3rem;
+        font-weight: 600;
+        font-family: 'Inter', monospace;
+    }
+
+    .section-title {
+        color: var(--black);
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+    }
+
+    .stats-table {
+        background: var(--white);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+
+    .table th {
+        background-color: var(--white);
+        color: var(--medium-gray);
+        font-weight: 500;
+        text-transform: uppercase;
+        font-size: 0.875rem;
+        letter-spacing: 0.5px;
+        padding: 1rem;
+        border-bottom: 2px solid var(--medium-gray);
+    }
+
+    .table td {
+        color: var(--black);
+        padding: 1rem;
+        vertical-align: middle;
+        border-bottom: 1px solid rgba(173, 173, 173, 0.2);
+    }
+
+    .table tr:hover {
+        background-color: rgba(39, 110, 241, 0.02);
+    }
+
+    .rider-name {
+        font-weight: 500;
+        color: var(--black);
+    }
+
+    .stat-value {
+        font-family: 'Inter', monospace;
+        font-weight: 500;
+    }
+
+    .earnings {
+        color: var(--safety-blue);
+        font-weight: 600;
+    }
+
+    .currency {
+        color: var(--medium-gray);
+        font-weight: normal;
+        margin-right: 0.25rem;
+    }
+
+    .metric {
+        color: var(--medium-gray);
+        font-size: 0.875rem;
+        margin-left: 0.25rem;
+    }
+</style>
+
+<div class="container stats-container">
+    <h1 class="page-title">Ride Statistics</h1>
+
+    <div class="total-earnings-card">
+        <div class="earnings-label">Total Platform Earnings</div>
+        <div class="earnings-value">
+            <span class="currency">₱</span>{{ total_earnings }}
+        </div>
+    </div>
+
+    <h2 class="section-title">Rider Performance</h2>
+    <div class="stats-table">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Rider</th>
+                    <th>Completed Rides</th>
+                    <th>Total Distance</th>
+                    <th>Earnings</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rs in rider_stats %}
+                    <tr>
+                        <td class="rider-name">{{ rs.rider.get_full_name }}</td>
+                        <td class="stat-value">{{ rs.completed_rides }}</td>
+                        <td class="stat-value">
+                            {{ rs.total_distance }}<span class="metric">km</span>
+                        </td>
+                        <td class="stat-value earnings">
+                            <span class="currency">₱</span>{{ rs.earnings }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

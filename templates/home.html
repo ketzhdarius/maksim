@@ -3,6 +3,93 @@
 {% block title %}Home - Ride Booking Platform{% endblock %}
 
 {% block content %}
+<style>
+    .welcome-section {
+        padding: 4rem 0;
+        /* subtle blue gradient using the primary color RGB for good contrast */
+        background: linear-gradient(
+            to right,
+            rgba(var(--safety-blue-rgb), 0.06),
+            rgba(var(--safety-blue-rgb), 0.10)
+        );
+        border-radius: 12px;
+        margin: 2rem 0;
+    }
+
+    .btn-primary {
+        background-color: var(--safety-blue);
+        border-color: var(--safety-blue);
+        padding: 0.625rem 1.5rem;
+        font-weight: 600;
+        border-radius: 8px;
+        color: var(--white);
+    }
+
+    .btn-primary:hover {
+        background-color: rgba(var(--safety-blue-rgb), 0.95);
+        border-color: rgba(var(--safety-blue-rgb), 0.95);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 18px rgba(var(--safety-blue-rgb), 0.14);
+    }
+
+    .btn-outline-primary {
+        color: var(--safety-blue);
+        border-color: var(--safety-blue);
+        padding: 0.625rem 1.5rem;
+        font-weight: 600;
+        border-radius: 8px;
+        background-color: transparent;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: rgba(var(--safety-blue-rgb), 0.08);
+        border-color: var(--safety-blue);
+        color: rgba(var(--safety-blue-rgb), 0.95);
+    }
+
+    .card {
+        border: 1px solid rgba(2,6,23,0.06);
+        border-radius: 12px;
+        transition: all 0.2s ease;
+        background-color: var(--white);
+    }
+
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(2,6,23,0.08);
+    }
+
+    .card-title {
+        color: var(--text-color);
+        font-weight: 600;
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+    }
+
+    .list-group-item {
+        border-color: var(--medium-gray);
+        color: var(--text-color);
+        font-weight: 500;
+        padding: 0.75rem 1rem;
+    }
+
+    .list-group-item:hover {
+        background-color: rgba(var(--safety-blue-rgb), 0.04);
+        color: var(--safety-blue);
+    }
+
+    h1, h2 {
+        color: var(--text-color);
+        font-weight: 600;
+    }
+
+    .lead {
+        color: var(--muted);
+        font-size: 1.25rem;
+        margin-bottom: 2rem;
+    }
+</style>
+
 <div class="container">
     {% if user.is_authenticated %}
         {% if user.user_role == 'customer' %}
@@ -40,9 +127,15 @@
                                 <div class="card-body">
                                     <h5 class="card-title">Quick Actions</h5>
                                     <div class="list-group">
-                                        <a href="{% url 'dashboard:user_list' %}" class="list-group-item list-group-item-action">Manage Users</a>
-                                        <a href="{% url 'dashboard:add_balance' %}" class="list-group-item list-group-item-action">Add Balance</a>
-                                        <a href="{% url 'dashboard:ride_statistics' %}" class="list-group-item list-group-item-action">View Statistics</a>
+                                        <a href="{% url 'dashboard:user_list' %}" class="list-group-item list-group-item-action">
+                                            <i class="fas fa-users me-2"></i>Manage Users
+                                        </a>
+                                        <a href="{% url 'dashboard:add_balance' %}" class="list-group-item list-group-item-action">
+                                            <i class="fas fa-wallet me-2"></i>Add Balance
+                                        </a>
+                                        <a href="{% url 'dashboard:ride_statistics' %}" class="list-group-item list-group-item-action">
+                                            <i class="fas fa-chart-line me-2"></i>View Statistics
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -52,16 +145,22 @@
             </div>
         {% endif %}
     {% else %}
-        <div class="row">
-            <div class="col-md-12 text-center py-5">
-                <h1>Welcome to Ride Booking Platform</h1>
-                <p class="lead">Book rides easily and travel safely with our trusted riders.</p>
-                <div class="mt-4">
-                    <a href="{% url 'login' %}" class="btn btn-primary me-2">Sign In</a>
-                    <a href="{% url 'signup' %}" class="btn btn-outline-primary">Sign Up</a>
+        <div class="welcome-section">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h1 class="display-4 mb-3">Welcome to Ride Booking Platform</h1>
+                    <p class="lead">Book rides easily and travel safely with our trusted riders.</p>
+                    <div class="mt-4">
+                        <a href="{% url 'accounts:login' %}" class="btn btn-primary me-3">Sign In</a>
+                        <a href="{% url 'accounts:signup' %}" class="btn btn-outline-primary">Sign Up</a>
+                    </div>
                 </div>
             </div>
         </div>
     {% endif %}
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script>
 {% endblock %}

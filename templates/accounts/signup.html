@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% load form_tags %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    .signup-container {
+        max-width: 580px;
+        margin: 3rem auto;
+    }
+
+    .signup-card {
+        background: var(--white);
+        border: 1px solid var(--medium-gray);
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .signup-title {
+        color: var(--black);
+        font-size: 1.75rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    .form-label {
+        color: var(--black);
+        font-weight: 500;
+        font-size: 0.95rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-control {
+        border: 2px solid var(--medium-gray);
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+    }
+
+    .form-control:focus {
+        border-color: var(--safety-blue);
+        box-shadow: 0 0 0 3px rgba(39, 110, 241, 0.1);
+    }
+
+    .form-text {
+        color: var(--medium-gray);
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+
+    .btn-primary {
+        background-color: var(--safety-blue);
+        border: none;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+        width: 100%;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+    }
+
+    .btn-primary:hover {
+        background-color: #1b5cd8;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(39, 110, 241, 0.2);
+    }
+
+    .btn-link {
+        color: var(--safety-blue);
+        text-decoration: none;
+        font-weight: 500;
+        display: block;
+        text-align: center;
+    }
+
+    .btn-link:hover {
+        color: #1b5cd8;
+        text-decoration: underline;
+    }
+
+    .text-danger {
+        color: var(--alert-red) !important;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+
+    .alert-danger {
+        background-color: rgba(242, 81, 56, 0.1);
+        border-color: var(--alert-red);
+        color: var(--alert-red);
+        border-radius: 8px;
+        font-weight: 500;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    select.form-control {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        background-size: 16px 12px;
+    }
+</style>
+
+<div class="signup-container">
+    <div class="signup-card">
+        <h2 class="signup-title">Create Account</h2>
+        <form method="post" action="{% url 'accounts:signup' %}">
+            {% csrf_token %}
+
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-circle me-2"></i>Please correct the errors below.
+                </div>
+            {% endif %}
+
+            {% for field in form %}
+                <div class="mb-3">
+                    <label for="{{ field.id_for_label }}" class="form-label">
+                        <i class="fas {% if field.name == 'username' %}fa-user{% elif field.name == 'email' %}fa-envelope{% elif 'password' in field.name %}fa-lock{% elif field.name == 'user_role' %}fa-users{% else %}fa-info-circle{% endif %} me-2"></i>
+                        {{ field.label }}
+                    </label>
+                    {{ field|addclass:"form-control" }}
+                    {% if field.help_text %}
+                        <div class="form-text">
+                            <i class="fas fa-info-circle me-1"></i>{{ field.help_text }}
+                        </div>
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <div class="text-danger">
+                            <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-user-plus me-2"></i>Create account
+            </button>
+            <a href="{% url 'accounts:login' %}" class="btn btn-link">
+                <i class="fas fa-sign-in-alt me-2"></i>Already have an account? Sign in
+            </a>
+        </form>
+    </div>
+</div>
+
+{% block extra_js %}
+<script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script>
+{% endblock %}
+{% endblock %}

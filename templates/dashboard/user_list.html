@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block title %}Users - Dashboard{% endblock %}
+
+{% block content %}
+<style>
+    .user-list-container {
+        margin: 2rem 0;
+    }
+
+    .page-title {
+        color: var(--black);
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+    }
+
+    .user-table {
+        background: var(--white);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+
+    .table th {
+        background-color: var(--white);
+        color: var(--medium-gray);
+        font-weight: 500;
+        text-transform: uppercase;
+        font-size: 0.875rem;
+        letter-spacing: 0.5px;
+        padding: 1rem;
+        border-bottom: 2px solid var(--medium-gray);
+    }
+
+    .table td {
+        color: var(--black);
+        padding: 1rem;
+        vertical-align: middle;
+        border-bottom: 1px solid rgba(173, 173, 173, 0.2);
+    }
+
+    .table tr:hover {
+        background-color: rgba(39, 110, 241, 0.02);
+    }
+
+    .role-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+
+    .role-staff {
+        background-color: rgba(39, 110, 241, 0.1);
+        color: var(--safety-blue);
+    }
+
+    .role-rider {
+        background-color: rgba(71, 178, 117, 0.1);
+        color: var(--brand-green);
+    }
+
+    .role-customer {
+        background-color: rgba(173, 173, 173, 0.1);
+        color: var(--medium-gray);
+    }
+
+    .balance {
+        font-family: 'Inter', monospace;
+        font-weight: 500;
+    }
+
+    .user-name {
+        font-weight: 500;
+        color: var(--black);
+        text-decoration: none;
+    }
+
+    .user-name:hover {
+        color: var(--safety-blue);
+    }
+
+    .user-email {
+        color: var(--medium-gray);
+        font-size: 0.875rem;
+    }
+</style>
+
+<div class="container user-list-container">
+    <h1 class="page-title">All Users</h1>
+
+    <div class="user-table">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>#{{ user.id }}</td>
+                        <td>
+                            <a href="#" class="user-name">{{ user.get_full_name }}</a>
+                        </td>
+                        <td class="user-email">{{ user.email }}</td>
+                        <td>
+                            <span class="role-badge role-{{ user.user_role }}">
+                                {{ user.user_role|title }}
+                            </span>
+                        </td>
+                        <td class="balance">₱{{ user.balance }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

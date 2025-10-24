@@ -5,7 +5,7 @@ from accounts.models import CustomUser
 from rides.models import Ride, RideEvent
 from accounts.forms import CustomUserCreationForm
 from django.db.models import Sum
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 
 @login_required
 def dashboard_home(request):
@@ -72,7 +72,7 @@ def add_balance(request):
             user.save()
             messages.success(request, f'Successfully added ${amount} to {user.get_full_name()}\'s balance')
 
-        except (CustomUser.DoesNotExist, ValueError, decimal.InvalidOperation) as e:
+        except (CustomUser.DoesNotExist, ValueError, InvalidOperation) as e:
             messages.error(request, f'Error: {str(e)}')
 
         return redirect('dashboard:add_balance')

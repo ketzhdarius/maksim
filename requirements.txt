@@ -1,7 +1,18 @@
 Django>=4.2
-Pillow
-python-dotenv
-boto3
-django-storages
-gunicorn
-
+Pillow  # For image handling
+python-dotenv  # For environment variables
+boto3  # For AWS S3
+django-storages  # For AWS storage backend
+gunicorn  # For production server
+whitenoise  # For static files serving
+psycopg2-binary  # For PostgreSQL database
+django-environ  # For environment configuration
+dj-database-url  # For database URL configuration
+django-crispy-forms>=2.0  # For better form rendering
+crispy-bootstrap5  # Bootstrap 5 template pack
+requests  # For API calls
+python-dateutil  # For date handling
+django-cors-headers  # For API security
+django-filter  # For filtering querysets
+djangorestframework  # For API development (if needed)
+django-debug-toolbar  # For development debugging
